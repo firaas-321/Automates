@@ -7,26 +7,72 @@ namespace PIF1006_tp1
         static void Main(string[] args)
         {
  
-            //-- Ceci est un exemple manuel de ce qui devrait fonctionner pour tester,
-            //   mais votre travail DOIT utiliser un fichier chargé quelconque  --
-            State s0 = new State("s0", false);
-            State s1 = new State("s1", false);
-            State s2 = new State("s2", true);
-            State s3 = new State("s3", false);
-            s0.Transitions.Add(new Transition('0', s1));
-            s1.Transitions.Add(new Transition('0', s0));
-            s1.Transitions.Add(new Transition('1', s2));
-            s2.Transitions.Add(new Transition('1', s2));
-            s2.Transitions.Add(new Transition('0', s3));
-            s3.Transitions.Add(new Transition('1', s1));
+            Automate automate = new Automate(); 
 
-            // Dans cet exemple uniquement, on permet au constructuer d'accueilir un état initial
-            // (qui par référence "transporte" tout l'automate en soi)
-            Automate automate = new Automate(s0);
-           automate.LoadFromFile("teste.txt");
-            // On doit pouvoir ensuite appeler une méthode qui permet de valider un input ou non
-            bool isValid = automate.Validate("011000");
+            while (true)
+            {
+                // creation du menu
+                Console.WriteLine("\n==================================   Menu creation d'automates   ==========================================\n\n");
+                Console.WriteLine("1. Charger un fichier\n");
+                Console.WriteLine("2. Afficher la liste des états et transitions\n");
+                Console.WriteLine("3. Soumettre un input\n");
+                Console.WriteLine("4. Quitter\n\n");
 
+                Console.Write("Veuillez sélectionnez une option entre 1 et 4: ");
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        Console.Write("\nEntrez le chemin du fichier à charger : ");
+                        string filePath = Console.ReadLine();
+                        try{
+                        automate.LoadFromFile(filePath);
+                        }catch(Exception e){
+                            Console.WriteLine("\nException declancher le ce chemain est erroné ou n'existe pas\n");
+                        }
+                        break;
+                    case "2":
+                        if (automate != null)
+                        {
+                            Console.WriteLine(automate.ToString());
+                        }
+                        else
+                        {
+                            Console.WriteLine("L'automate n'a pas encore été chargé.Veuillez charger un fichier ");
+                        }
+                        break;
+                    case "3":
+                        if (automate != null)
+                        {
+                            Console.Write("Entrez un input en tant que chaîne de 0 ou de 1 : ");
+                            
+                            string input = Console.ReadLine();
+            
+                            bool isValid = automate.Validate(input);
+                            if (isValid)
+                            {
+                                Console.WriteLine("Votre nput accepté !");
+                            }
+                            else
+                            {
+                                Console.WriteLine("votre input rejeté !");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("L'automate n'a pas encore été chargé. Chargez un fichier d'abord.");
+                        }
+                        break;
+                    case "4":
+                        Console.WriteLine("Fin de l'application.");
+                        return;
+                    default:
+                        Console.WriteLine("Option invalide. Veuillez choisir une option valide (1-4).");
+                        break;
+                }
+            }
+        }
             // Et ainsi de suite...
 
             //---------------------------------------------------------------------------------------------------------------------------
@@ -41,4 +87,4 @@ namespace PIF1006_tp1
             //      (4) Quitter l'application.
         }
     }
-}
+

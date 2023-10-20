@@ -11,91 +11,90 @@ namespace PIF1006_tp1
     {
         public State InitialState { get; set; }
         public State CurrentState { get; set; }
-        private List<State> ListState;
-        public Automate(State initialState)
+        Dictionary<string, State> stateDictionary = new Dictionary<string, State>();
+        public Automate()
         {
-            InitialState = initialState;
+            
             Reset();
         }
 
         public void LoadFromFile(string filePath)
-        {
-            string L;
-            //Pass the file path and file name to the StreamReader constructor
-            StreamReader reader = new StreamReader(filePath);
-            //Read the first line of text
-            L = reader.ReadLine();
-            //Continue to read until you reach end of file
-            while (L != null)
-           {
-            //write the line to console window
-            Console.WriteLine(L);
-            //Read the next line
-            L = reader.ReadLine();
-             string[] ListMots = L.Split(' ');
-             List<string> Sauvgarde = new List<string>();
-                    
-                    
-                       switch(ListMots[0]){
-                        case ("state"):
-                        if(ListMots[1]!=null && ListMots[2]!=null ){
-                            if(!Sauvgarde.Contains(ListMots[1])){
-                            switch(ListMots[2]){
-                                case "1":
-                                ListState.Add(new State(ListMots[1],true));
-                                break
-                                ;
-                                case "0":
-                                ListState.Add(new State(ListMots[1],false));
-                                break
-                                ;
-                                default:
-                                Console.WriteLine("erreur de commande lecture du fichier impossible");
-                                break
-                                ;
-                            }
-                            }
-                        }else{
-                             Console.WriteLine("erreur de commande lecture du fichier impossible");
+{
+    string L = "";
 
-                        }
-                         break
-                        ;
-                        case ("transition"):
-                          if(ListMots[1]!=null && ListMots[2]!=null ){
-                            foreach(var state in ListState){
-                                if(state.Name == ListMots[1]){
-                            switch(ListMots[2]){
-                                case "1":
-                                ListState.Add(new State(ListMots[1],true));
-                                break
-                                ;
-                                case "0":
-                                ListState.Add(new State(ListMots[1],false));
-                                break
-                                ;
-                                default:
-                                Console.WriteLine("erreur de commande lecture du fichier impossible");
-                                break
-                                ;
-                            }
-                        }
-                          }
-                          }
-                         break
-                        ;
-                        case ("end"):
-                         break
-                        ;
-                       }
+    StreamReader reader = new StreamReader(filePath);
+    
 
 
-                    
-            }
+    // Utilisez un dictionnaire pour stocker les états par leur nom
+    
+    while (L != null)
+    {
+        Console.WriteLine(L);
+        L = reader.ReadLine();
+        if (L != null)
+            {
+               string[] ListMots = L.Split(' ');
             
-             //close the file
-            reader.Close();
-            Console.ReadLine();
+
+        if (ListMots.Length >= 2)
+        {
+            string commande = ListMots[0];
+            string arg1 = ListMots[1];
+            string arg2 = ListMots.Length > 2 ? ListMots[2] : null;
+            string arg3 = ListMots.Length > 3 ? ListMots[3] : null;
+
+
+            switch (commande)
+            {
+                case "state":
+                    if (!stateDictionary.ContainsKey(arg1))
+                    {
+                        bool isFinal = arg2 == "1";
+                        State newState = new State(arg1, isFinal);
+                        stateDictionary[arg1] = newState;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Erreur de commande: État déjà défini - {L}");
+                    }
+                    break;
+                case "transition":
+                  if (arg1 != null && arg2 != null && arg3 != null)
+              {
+               if (stateDictionary.ContainsKey(arg1) && stateDictionary.ContainsKey(arg3))
+               {
+                   char transitionChar = arg2[0]; // Première lettre de l'argument 2
+                    stateDictionary[arg1].Transitions.Add(new Transition(transitionChar, stateDictionary[arg3]));
+                 }
+                  else
+               {
+                      Console.WriteLine("Erreur de commande: État source ou de transition inexistant - " + L);
+                     }
+                       }
+                    else
+                    {
+                        Console.WriteLine($"Erreur de commande: État source inexistant - {L}");
+                    }
+                    break;
+                default:
+                    Console.WriteLine($"Erreur de commande: Ligne non reconnue - {L}");
+                    break;
+            }
+        }
+        else
+        {
+            Console.WriteLine($"Erreur de commande: Ligne mal formatée - {L}");
+        }
+    }
+    }
+     InitialState = stateDictionary["s0"];
+    // Fermez le fichier
+    //reader.Close();
+    
+    // La variable stateDictionary contient maintenant tous les états
+
+
             // Vous devez pouvoir charger à partir d'un fichier quelconque.  Cela peut être un fichier XML, JSON, texte, binaire, ...
             // P.ex. avec un fichier texte, vous pouvoir balayer ligne par ligne et interprété en séparant chaque ligne en un tableau de strings
             // dont le premier représente l'action, et la suite les arguments. L'équivalent de l'automate décrit manuellement dans la classe
@@ -126,8 +125,32 @@ namespace PIF1006_tp1
         public bool Validate(string input)
         {
             bool isValid = true;
-            Reset();
+            Reset(); 
 
+    char[] caracteresEntree = input.ToCharArray();
+
+    foreach (char caractere in caracteresEntree)
+    {
+        Transition transition = CurrentState.TrouverTransition(caractere);
+
+        if (transition != null)
+        {
+            CurrentState = transition.TransiteTo;
+        }
+        else
+        {
+            return false;
+        }
+
+        Console.WriteLine($"\nÉtat actuel : {CurrentState.Name}, Entrée lue : {caractere}, État transité : {CurrentState.Name} ");
+    }
+      if(CurrentState.IsFinal){
+        isValid = true;
+    }else{
+        isValid = false;
+
+    }
+            // Une fois que tous les caractères de l'entrée ont été lus, vérifier si l'état courant est final
             // Vous devez transformer l'input en une liste / un tableau de caractères (char) et les lire un par un;
             // L'automate doit maintenant à jour son "CurrentState" en suivant les transitions et en respectant l'input.
             // Considérez que l'automate est déterministe et que même si dans les faits on aurait pu mettre plusieurs
@@ -138,17 +161,24 @@ namespace PIF1006_tp1
 
             // VOUS DEVEZ OBLIGATOIREMENT AFFICHER la suite des états actuel, input lu, et état transité pour qu'on puisse
             // suivre le déroulement de l'analyse.
+    return isValid;
 
-            return isValid;
-        }
-
-        public override string ToString()
-        {
-            // Vous devez modifier cette partie de sorte à retourner un équivalent string qui décrit tous les états et
-            // la table de transitions de l'automate.
-            return base.ToString(); // On ne retournera donc pas le ToString() par défaut
         }
 
         public void Reset() => CurrentState = InitialState;
+
+      public override string ToString()
+{
+    StringBuilder toString = new StringBuilder();
+
+    foreach (var stateEntry in stateDictionary)
+    {
+        State state = stateEntry.Value;
+        toString.AppendLine(state.ToString());
+    }
+
+    return toString.ToString();
+}
+
     }
 }

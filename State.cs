@@ -43,9 +43,20 @@ namespace PIF1006_tp1
              }
               else
             {
-                tostring.Append("pas de transitions\n");
+                tostring.Append("\npas de transitions\n");
             }
              return tostring.ToString();
     }
+         public Transition TrouverTransition(char caractere)
+        {
+    foreach (Transition transition in Transitions)
+    {
+        if (transition.Input == caractere)
+        {
+            return transition;
+        }
+    }
+    return null;
+       }  
     }
 }
