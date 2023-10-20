@@ -29,7 +29,7 @@ namespace PIF1006_tp1
                         try{
                         automate.LoadFromFile(filePath);
                         }catch(Exception e){
-                            Console.WriteLine("\nException declancher le ce chemain est erroné ou n'existe pas\n");
+                            Console.WriteLine("\nException declanché, ce chemain est erroné ou n'existe pas\n");
                         }
                         break;
                     case "2":
