@@ -24,5 +24,28 @@ namespace PIF1006_tp1
         }
 
         // Au besoin, vous pouvez ajouter du code ici, au min. de redéfinir ToString()
+        public override string ToString()
+        {
+            StringBuilder tostring = new StringBuilder();
+            tostring.Append("etat: ").Append(Name);
+            if (IsFinal == true) {
+               tostring.Append(" (final)");
+            }
+            
+    
+            if (Transitions.Any()) {
+                tostring.Append("\nTransitions :\n");
+
+                foreach (var transition in Transitions)
+                {
+                    tostring.Append($" les inputs: {transition.Input}, => {transition.TransiteTo.Name}\n");
+                }
+             }
+              else
+            {
+                tostring.Append("pas de transitions\n");
+            }
+             return tostring.ToString();
+    }
     }
 }

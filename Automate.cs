@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace PIF1006_tp1
     {
         public State InitialState { get; set; }
         public State CurrentState { get; set; }
-
+        private List<State> ListState;
         public Automate(State initialState)
         {
             InitialState = initialState;
@@ -19,6 +20,82 @@ namespace PIF1006_tp1
 
         public void LoadFromFile(string filePath)
         {
+            string L;
+            //Pass the file path and file name to the StreamReader constructor
+            StreamReader reader = new StreamReader(filePath);
+            //Read the first line of text
+            L = reader.ReadLine();
+            //Continue to read until you reach end of file
+            while (L != null)
+           {
+            //write the line to console window
+            Console.WriteLine(L);
+            //Read the next line
+            L = reader.ReadLine();
+             string[] ListMots = L.Split(' ');
+             List<string> Sauvgarde = new List<string>();
+                    
+                    
+                       switch(ListMots[0]){
+                        case ("state"):
+                        if(ListMots[1]!=null && ListMots[2]!=null ){
+                            if(!Sauvgarde.Contains(ListMots[1])){
+                            switch(ListMots[2]){
+                                case "1":
+                                ListState.Add(new State(ListMots[1],true));
+                                break
+                                ;
+                                case "0":
+                                ListState.Add(new State(ListMots[1],false));
+                                break
+                                ;
+                                default:
+                                Console.WriteLine("erreur de commande lecture du fichier impossible");
+                                break
+                                ;
+                            }
+                            }
+                        }else{
+                             Console.WriteLine("erreur de commande lecture du fichier impossible");
+
+                        }
+                         break
+                        ;
+                        case ("transition"):
+                          if(ListMots[1]!=null && ListMots[2]!=null ){
+                            foreach(var state in ListState){
+                                if(state.Name == ListMots[1]){
+                            switch(ListMots[2]){
+                                case "1":
+                                ListState.Add(new State(ListMots[1],true));
+                                break
+                                ;
+                                case "0":
+                                ListState.Add(new State(ListMots[1],false));
+                                break
+                                ;
+                                default:
+                                Console.WriteLine("erreur de commande lecture du fichier impossible");
+                                break
+                                ;
+                            }
+                        }
+                          }
+                          }
+                         break
+                        ;
+                        case ("end"):
+                         break
+                        ;
+                       }
+
+
+                    
+            }
+            
+             //close the file
+            reader.Close();
+            Console.ReadLine();
             // Vous devez pouvoir charger à partir d'un fichier quelconque.  Cela peut être un fichier XML, JSON, texte, binaire, ...
             // P.ex. avec un fichier texte, vous pouvoir balayer ligne par ligne et interprété en séparant chaque ligne en un tableau de strings
             // dont le premier représente l'action, et la suite les arguments. L'équivalent de l'automate décrit manuellement dans la classe
@@ -43,7 +120,9 @@ namespace PIF1006_tp1
             //   - S'il y a d'autres termes, les lignes pourraient être ignorées;
             //   - Si l'état n'est pas trouvé dans la liste (p.ex. l'état est référencé mais n'existe pas (encore)), la transition est ignorée
         }
+         public void requete(string a){
 
+         }
         public bool Validate(string input)
         {
             bool isValid = true;

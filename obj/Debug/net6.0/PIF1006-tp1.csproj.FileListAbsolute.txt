@@ -1,0 +1,15 @@
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\bin\Debug\net6.0\PIF1006-tp1.exe
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\bin\Debug\net6.0\PIF1006-tp1.deps.json
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\bin\Debug\net6.0\PIF1006-tp1.runtimeconfig.json
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\bin\Debug\net6.0\PIF1006-tp1.dll
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\bin\Debug\net6.0\PIF1006-tp1.pdb
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.csproj.AssemblyReference.cache
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.AssemblyInfoInputs.cache
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.AssemblyInfo.cs
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.csproj.CoreCompileInputs.cache
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.dll
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\refint\PIF1006-tp1.dll
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.pdb
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\PIF1006-tp1.genruntimeconfig.cache
+C:\Users\maren\OneDrive\Bureau\mes repositories\Automates\obj\Debug\net6.0\ref\PIF1006-tp1.dll

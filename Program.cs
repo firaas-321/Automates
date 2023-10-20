@@ -23,7 +23,7 @@ namespace PIF1006_tp1
             // Dans cet exemple uniquement, on permet au constructuer d'accueilir un état initial
             // (qui par référence "transporte" tout l'automate en soi)
             Automate automate = new Automate(s0);
-
+           automate.LoadFromFile("teste.txt");
             // On doit pouvoir ensuite appeler une méthode qui permet de valider un input ou non
             bool isValid = automate.Validate("011000");
 
