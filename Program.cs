@@ -26,6 +26,7 @@ namespace PIF1006_tp1
                     case "1":
                         Console.Write("\nEntrez le chemin du fichier à charger : ");
                         string filePath = Console.ReadLine();
+                        //forte probabilité de generer une exeption
                         try{
                         automate.LoadFromFile(filePath);
                         }catch(Exception e){
@@ -35,7 +36,7 @@ namespace PIF1006_tp1
                     case "2":
                         if (automate != null)
                         {
-                            Console.WriteLine(automate.ToString());
+                            Console.WriteLine(automate.ToString());//affichage
                         }
                         else
                         {
@@ -49,14 +50,14 @@ namespace PIF1006_tp1
                             
                             string input = Console.ReadLine();
             
-                            bool isValid = automate.Validate(input);
+                            bool isValid = automate.Validate(input);//valider l'input
                             if (isValid)
                             {
-                                Console.WriteLine("Votre nput accepté !");
+                                Console.WriteLine("Votre input a été accepté !");
                             }
                             else
                             {
-                                Console.WriteLine("votre input rejeté !");
+                                Console.WriteLine("votre input a été rejeté !");
                             }
                         }
                         else

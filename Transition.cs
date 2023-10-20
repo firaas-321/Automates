@@ -9,7 +9,7 @@ namespace PIF1006_tp1
     /// <summary>
     /// Une transition représente un tuple (input, nouvel état transité)
     /// </summary>
-    public class Transition
+    public class Transition// je n'ai apporté aucune modification a cette class
     {
         public char Input { get; set; }
         public State TransiteTo { get; set; }

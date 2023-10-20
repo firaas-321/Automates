@@ -12,11 +12,11 @@ namespace PIF1006_tp1
     /// </summary>
     public class State
     {
-        public bool IsFinal {get; set;}
+        public bool IsFinal { get; set; }
         public string Name { get; private set; }
         public List<Transition> Transitions { get; private set; }
 
-        public State (string name, bool isFinal)
+        public State(string name, bool isFinal)
         {
             Name = name;
             IsFinal = isFinal;
@@ -28,35 +28,37 @@ namespace PIF1006_tp1
         {
             StringBuilder tostring = new StringBuilder();
             tostring.Append("etat: ").Append(Name);
-            if (IsFinal == true) {
-               tostring.Append(" (final)");
+            if (IsFinal == true)
+            {
+                tostring.Append(" (final)");
             }
-            
-    
-            if (Transitions.Any()) {
+
+            if (Transitions.Any())
+            {
                 tostring.Append("\nTransitions :\n");
 
                 foreach (var transition in Transitions)
                 {
                     tostring.Append($" les inputs: {transition.Input}, => {transition.TransiteTo.Name}\n");
                 }
-             }
-              else
+            }
+            else
             {
                 tostring.Append("\npas de transitions\n");
             }
-             return tostring.ToString();
-    }
-         public Transition TrouverTransition(char caractere)
-        {
-    foreach (Transition transition in Transitions)
-    {
-        if (transition.Input == caractere)
-        {
-            return transition;
+            return tostring.ToString();
         }
-    }
-    return null;
-       }  
+
+        public Transition TrouverTransition(char caractere)//pour verifier si la transition est possible
+        {
+            foreach (Transition transition in Transitions)
+            {
+                if (transition.Input == caractere)
+                {
+                    return transition;
+                }
+            }
+            return null;
+        }
     }
 }

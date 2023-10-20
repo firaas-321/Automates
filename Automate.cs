@@ -12,7 +12,7 @@ namespace PIF1006_tp1
         public State InitialState { get; set; }
         public State CurrentState { get; set; }
         Dictionary<string, State> stateDictionary = new Dictionary<string, State>();
-        public Automate()
+        public Automate()//j'ai du modifier cette partie car je n'arrivait pas a cree l'etat initiale a partir du fichier txt 
         {
             
             Reset();
@@ -23,11 +23,7 @@ namespace PIF1006_tp1
     string L = "";
 
     StreamReader reader = new StreamReader(filePath);
-    
-
-
-    // Utilisez un dictionnaire pour stocker les états par leur nom
-    
+        
     while (L != null)
     {
         Console.WriteLine(L);
@@ -42,7 +38,7 @@ namespace PIF1006_tp1
             string commande = ListMots[0];
             string arg1 = ListMots[1];
             string arg2 = ListMots.Length > 2 ? ListMots[2] : null;
-            string arg3 = ListMots.Length > 3 ? ListMots[3] : null;
+            string arg3 = ListMots.Length > 3 ? ListMots[3] : null;//pour acceder aux index plus facilement 
 
 
             switch (commande)
@@ -50,6 +46,8 @@ namespace PIF1006_tp1
                 case "state":
                     if (!stateDictionary.ContainsKey(arg1))
                     {
+                            // Utiliser un dictionnaire pour stocker les états par leur nom
+
                         bool isFinal = arg2 == "1";
                         State newState = new State(arg1, isFinal);
                         stateDictionary[arg1] = newState;
@@ -69,7 +67,7 @@ namespace PIF1006_tp1
                  }
                   else
                {
-                      Console.WriteLine("Erreur de commande: État source ou de transition inexistant - " + L);
+                      Console.WriteLine("Erreur de commande: État source ou de transition inexistant - " + L);//pour gerer les erreur etc
                      }
                        }
                     else
@@ -90,7 +88,7 @@ namespace PIF1006_tp1
     }
      InitialState = stateDictionary["s0"];
     // Fermez le fichier
-    //reader.Close();
+     reader.Close();
     
     // La variable stateDictionary contient maintenant tous les états
 
@@ -119,23 +117,21 @@ namespace PIF1006_tp1
             //   - S'il y a d'autres termes, les lignes pourraient être ignorées;
             //   - Si l'état n'est pas trouvé dans la liste (p.ex. l'état est référencé mais n'existe pas (encore)), la transition est ignorée
         }
-         public void requete(string a){
 
-         }
         public bool Validate(string input)
         {
             bool isValid = true;
             Reset(); 
 
-    char[] caracteresEntree = input.ToCharArray();
+          char[] caracteresEntree = input.ToCharArray();
 
-    foreach (char caractere in caracteresEntree)
-    {
-        Transition transition = CurrentState.TrouverTransition(caractere);
+         foreach (char caractere in caracteresEntree)
+        {
+        Transition transition = CurrentState.TrouverTransition(caractere);//pour trouver la transition si elle existe
 
         if (transition != null)
         {
-            CurrentState = transition.TransiteTo;
+            CurrentState = transition.TransiteTo;//on continu jusqu'a ne plus trouver de transition ou a la fin de la chaine
         }
         else
         {
@@ -143,13 +139,13 @@ namespace PIF1006_tp1
         }
 
         Console.WriteLine($"\nÉtat actuel : {CurrentState.Name}, Entrée lue : {caractere}, État transité : {CurrentState.Name} ");
-    }
-      if(CurrentState.IsFinal){
+        }
+          if(CurrentState.IsFinal){
         isValid = true;
-    }else{
+         }else{
         isValid = false;
 
-    }
+        }
             // Une fois que tous les caractères de l'entrée ont été lus, vérifier si l'état courant est final
             // Vous devez transformer l'input en une liste / un tableau de caractères (char) et les lire un par un;
             // L'automate doit maintenant à jour son "CurrentState" en suivant les transitions et en respectant l'input.
